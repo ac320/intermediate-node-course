@@ -63,7 +63,7 @@ app.route('/users/:id')
       password:req.body.newData.password
     },
     {
-      new:true
+      new:trueup
     },
     (err,data)=>{
       if (err){
@@ -88,7 +88,27 @@ app.route('/users/:id')
 
 // DELETE
 .delete((req,res)=>{
-  // User.findByIdAndDelete()
+  User.findByIdAndDelete(
+    req.params.id,
+    (err,data)=>{
+      if (err){
+        res.json({
+          success: false,
+          message: err
+        })
+      } else if (!data){
+        res.json({
+          success: false,
+          message: "Not Found"
+        })
+      } else {
+        res.json({
+          success: true,
+          data: data
+        })
+      }
+    }
+  )
 })
 
 const User=require('./models/User');
